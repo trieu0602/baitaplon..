@@ -1,0 +1,600 @@
+lude<windows.h>
+#include<conio.h>
+#include<stdlib.h>
+#include<fstream>
+#include<iostream>
+#inc
+using namespace std;
+
+class user 
+{ 
+    public:
+
+       virtual void menu() = 0;
+
+};
+
+class SinhVien:public user{
+    private:
+        struct Node
+        {
+            string mssv;
+            string name;
+            string khoa;
+            int age;
+            string gioitinh;
+            string email;
+            Node *next;
+        };
+    public:
+        Node *head = NULL;
+        void menu();
+        void Enter();
+        void nhap();
+        void sapxep(); 
+        void xuat();
+        void suadoi();
+        void timkiem();
+        void xoa();
+      
+
+};
+
+class HoatDong: public SinhVien{
+    private:
+        string msv;
+        string hoatdong;
+        int diem;
+    public:
+        void nhap();
+        void xuat();
+};
+class DiemHoc: public SinhVien{
+    private:
+        string msv;
+        
+        int diem;
+    public:
+        void nhap();
+        void xuat();
+};
+class DiemRenLuyen: public SinhVien{
+    private:
+        string msv;
+        int diem;
+    public:
+        void nhap();
+        void xuat();
+}; 
+
+void SinhVien::menu(){ 
+    
+    while (true){
+        int luachon;
+        char x; 
+        system("cls");
+        cout << "\n\t\t\t\t\t--------------------------------" << endl;
+        cout << "\t\t\t\t\t>> CHUONG TRINH QUAN LI SINH VIEN <<" << endl;
+        cout << "\t\t\t\t\t----------------------------------" << endl;
+        cout << "\t\t\t\t\t      1. Nhap moi" << endl;
+        cout << "\t\t\t\t\t      2. Xem danh sach" << endl;
+        cout << "\t\t\t\t\t      3. Sua doi" << endl;
+        cout << "\t\t\t\t\t      4. Tim kiem" << endl;
+        cout << "\t\t\t\t\t      5. Xoa" << endl;
+        cout << "\t\t\t\t\t      6. Thoat" << endl;
+
+        cout << "\n\t\t\t\t\t-------------------------------" << endl;
+        cout << "\t\t\t\t\t>> Cac su lua chon: [1/2/3/4/5/6] <<" << endl;
+        cout << "\t\t\t\t\t---------------------------------" << endl; 
+        cout << "\t\t\t\t\t>> Nhap lua chon cua ban: ";
+        cin >> luachon;
+    
+        switch (luachon)
+        {
+            case 1:
+                do
+                {
+                    nhap();
+                    cout << "\n\n\t\t\t Tiep tuc hoac dung lai (Y / N): ";
+                    cin >> x;
+                } while (x == 'y' || x == 'Y');
+                Enter();
+                break;
+            case 2:
+                sapxep();
+                xuat();
+                break;
+            case 3:
+                suadoi();
+                break;
+            case 4:
+                timkiem();
+                break;
+            case 5:
+                xoa();
+                break;
+            case 6:
+                system("cls");
+                return;
+                
+            default:
+                cout << "\n\t\t\t>> Sai lua chon, vui long nhap lai <<\n\n";
+                
+                  
+                  
+        }
+        getch();
+         
+    }
+
+}
+
+
+void SinhVien::nhap()
+{
+    system("cls");
+    
+    cout << "\n-------------------------------------------------------------------------------------------------------" << endl;
+    cout << "------------------------------------- Nhap du lieu -------------------------------------------" << endl;
+    Node *new_node = new Node;
+    cout << "\nNhap ma so sinh vien: ";
+    cin >> new_node->mssv;
+    cout << "\nNhap ten sinh vien: ";
+    getline(cin.ignore(), new_node->name);
+    cout << "\nNhap khoa: ";
+    getline(cin.ignore(), new_node->khoa);
+    cout << "\nNhap tuoi: ";
+    cin >> new_node->age;
+    cout << "\nNhap gioi tinh: ";
+    cin >> new_node->gioitinh;
+    cout << "\nNhap email: ";
+    //Trùng email thì báo lỗi
+    //Sửa code
+    //nguyễn minh triều  - 6151071025 - N31
+    do
+    {
+        cin >> new_node->email;
+        if (head == NULL)
+        {
+            break;
+        }
+        else
+        {
+            Node *p = head;
+            while (p != NULL)
+            {
+                if (p->email == new_node->email)
+                {
+                    cout << "\nEmail da ton tai" << endl;
+                    Sleep(1000);
+                    cout << "\nNhap lai email: ";
+                    cin >> new_node->email;
+                    new_node->next = NULL;
+                    if (head == NULL)
+                    {
+                        head = new_node;
+                    }
+                    else
+                    {
+                        Node *p = head;
+                        while (p->next != NULL)
+                        {
+                            p = p->next;
+                        }
+                        p->next = new_node;
+                    }
+                }
+                else
+                {
+                    p = p->next;
+                }
+            }
+        }
+    
+                    
+    }  while (true);
+
+    new_node->next = NULL;
+    if (head == NULL)
+    {
+        head = new_node;
+    }
+    else
+    {
+        Node *p = head;
+        while (p->next != NULL)
+        {
+            p = p->next; 
+        }
+        p -> next = new_node; 
+    }
+    
+ 
+}
+
+
+
+void SinhVien::xuat()
+{
+    system("cls");
+
+    int stt = 1;
+    cout << "\n-------------------------------------------------------------------------------------------------------" << endl;
+    cout << "-------------------------------------------- Ho so sinh vien --------------------------------------------" << endl;
+    
+    Node *p = head; 
+        cout << "\n --------------------------------------------------------------------------------------------------------------------------------------------";
+        cout << "\n|    STT    |    Ten sinh vien      |      MSSV      |      Khoa      |      Tuoi      |      Gioi tinh      |            Email             |";
+        cout << "\n --------------------------------------------------------------------------------------------------------------------------------------------";
+        while (p != NULL)
+        {
+            
+            cout << "\n\n     " << stt++ << "         " << p->name << "        " << p->mssv << "         " << p->khoa << "            "    << p->age <<  "                 "      << p->gioitinh << "                "      << p->email << " ";
+            p = p->next;
+            
+
+        }
+
+        Enter();
+
+}
+
+void SinhVien::timkiem()
+{
+    system("cls");
+    
+    string checkMSSV;
+    int found = 0; 
+    cout << "\n-------------------------------------------------------------------------------------------------------" << endl;
+    cout << "------------------------------------- Tim kiem sinh vien -------------------------------------------" << endl;
+    
+    if (head == NULL)
+    {
+        cout << "\nDanh sach rong!";
+    }
+    else
+    {
+        cout << "\nNhap ma so sinh vien can tim: ";
+        cin >> checkMSSV;
+        Node *p = head;
+        while (p != NULL)
+        {
+            if (checkMSSV == p->mssv)
+            {
+                system("cls");
+                cout << "\n-------------------------------------------------------------------------------------------------------" << endl;
+                cout << "------------------------------------- Tim kiem sinh vien -------------------------------------------" << endl;
+                
+                cout << "\n\n Ma so sinh vien: ";
+                cout << p->mssv;
+                cout << "\n\n Ten sinh vien: ";
+                cout << p->name;
+                cout << "\n\n Khoa: ";
+                cout << p->khoa;
+                cout << "\n\n Tuoi: ";
+                cout << p->age;
+                cout << "\n\n Gioi tinh: ";
+                cout << p->gioitinh;
+                cout << "\n\n Email: ";
+                cout << p->email;
+                found++;
+            }
+            p = p->next;
+
+        }
+        if (found == 0)
+        {
+            cout << "\nKhong tim thay sinh vien!";
+        }
+    }
+    
+    Enter();
+
+}
+
+
+void SinhVien::suadoi()
+{
+    system("cls");
+    
+    string checkMSSV;
+    int found = 0; 
+    cout << "\n-------------------------------------------------------------------------------------------------------" << endl;
+    cout << "------------------------------------- Sua doi sinh vien -------------------------------------------" << endl;
+    
+    if (head == NULL)
+    {
+        cout << "\nDanh sach rong!";
+    }
+    else
+    {
+        cout << "\nNhap ma so sinh vien can sua: ";
+        cin >> checkMSSV;
+        Node *p = head;
+        while (p != NULL)
+        {
+            if (checkMSSV == p->mssv)
+            {
+                system("cls");
+                cout << "\n-------------------------------------------------------------------------------------------------------" << endl;
+                cout << "------------------------------------- Sua doi sinh vien -------------------------------------------" << endl;
+                
+                cout << "\n\nNhap ma so sinh vien: ";
+                cin >> p->mssv;
+                cout << "\n\nNhap ten sinh vien: ";
+                getline(cin.ignore(), p->name);
+                cout << "\n\nNhap khoa: ";
+                getline(cin.ignore(), p->khoa);
+                cout << "\n\nNhap tuoi: ";
+                cin >> p->age;
+                cout << "\n\nNhap gioi tinh: ";
+                cin >> p->gioitinh;
+                cout << "\n\nNhap email: ";
+                cin >> p->email;
+                found++;
+            }
+            p = p->next;
+
+        }
+        if (found == 0)
+        {
+            cout << "\nKhong tim thay sinh vien!";
+        }
+    }
+    
+    Enter();
+    
+}
+
+
+void SinhVien::xoa()
+{
+    system("cls");
+    
+    string checkMSSV;
+    int found = 0; 
+    cout << "\n-------------------------------------------------------------------------------------------------------" << endl;
+    cout << "------------------------------------- Xoa sinh vien -------------------------------------------" << endl;
+    
+    if (head == NULL)
+    {
+        cout << "\nDanh sach rong!";
+    }
+    else
+    {
+        cout << "\nNhap ma so sinh vien can xoa: ";
+        cin >> checkMSSV;
+        if (checkMSSV == head->mssv)
+        {
+            Node *p = head;
+            head = head->next;
+            delete p;
+            cout << "\n\nXoa thanh cong!";
+            found++; 
+        }
+        else
+        {
+            Node *p = head;
+            Node *q = head;
+            while (p != NULL)
+            {
+                if (checkMSSV == p->mssv)
+                {
+                    q->next = p->next;
+                    delete p;
+                    cout << "\n\nXoa thanh cong!";
+                    found++;
+                    break;
+                }
+                q = p;
+                p = p->next;
+            }
+       
+        }
+        if (found == 0)
+        {
+            cout << "\nKhong tim thay sinh vien!";
+        }
+  
+    }
+   
+    Enter();
+}
+
+void SinhVien::sapxep()
+{
+    
+    if (head == NULL)
+    {
+        system("cls");
+        cout << "\n\nDanh sanh lien ket rong";
+        getch();
+        menu();
+    }
+    int count = 0;
+    string checkMSSV;
+    string t_name;
+    string t_khoa;
+    int t_age;
+    string t_gioitinh;
+    string t_email;
+    Node *p = head;
+    while (p != NULL)
+    {
+        count++;
+        p = p->next;
+
+    }    
+    for (int i = 1; i <= count; i++)
+    {
+        Node *p = head;
+        for (int j = 1; j < count; j++)
+        {
+            if (p -> mssv > p -> next -> mssv)
+            {
+                checkMSSV = p -> mssv;
+                t_name = p -> name;
+                t_khoa = p -> khoa;
+                t_age = p -> age;
+                t_gioitinh = p -> gioitinh;
+                t_email = p -> email;
+                p -> mssv = p -> next -> mssv;
+                p -> name = p -> next -> name;
+                p -> khoa = p -> next -> khoa;
+                p -> age = p -> next -> age;
+                p -> gioitinh = p -> next -> gioitinh;
+                p -> email = p -> next -> email;
+                p -> next -> mssv = checkMSSV;
+                p -> next -> name = t_name;
+                p -> next -> khoa = t_khoa;
+                p -> next -> age = t_age;
+                p -> next -> gioitinh = t_gioitinh;
+                p -> next -> email = t_email;
+
+            }
+            p = p -> next;
+
+        }
+
+    }
+}
+
+void SinhVien::Enter()
+{
+    cout << "\n\nNhan phim bat ky de tiep tuc!";
+    cin.get();
+}
+
+void HoatDong::nhap()
+{
+    SinhVien::nhap();
+    system("cls");
+    
+    cout << "\n-------------------------------------------------------------------------------------------------------" << endl;
+    cout << "------------------------------------- Nhap hoat dong ------------------------------------------------" << endl;
+    
+    cout << "\nNhap ma so sinh vien: ";
+    cin >> msv;
+    cout << "\nNhap ten hoat dong: ";
+    cin >> hoatdong;
+    cout << "\nNhap diem: ";
+    cin >> diem;
+
+}
+
+void HoatDong::xuat()
+{
+    SinhVien::xuat();
+    cout << "\n\n\n==============================\n";
+    cout << "\n\nMa sinh vien: " << msv << "\n";
+    cout << "Ten hoat dong: " << hoatdong << "\n";
+    cout << "Diem: " << diem << "\n";
+    cout << "\n==============================\n";
+
+    getch();
+
+}
+
+void DiemHoc::nhap()
+{
+    
+    system("cls");
+    cout << "\n-------------------------------------------------------------------------------------------------------" << endl;
+    cout << "------------------------------------- Nhap diem hoc ------------------------------------------------" << endl;
+    
+    cout << "\nNhap ma so sinh vien: ";
+    cin >> msv;
+    cout << "\nNhap ten mon hoc: ";
+    cin >> diem;
+
+}
+
+
+void DiemHoc::xuat()
+{
+    
+    system("cls");
+    cout << "\n-------------------------------------------------------------------------------------------------------" << endl;
+    cout << "------------------------------------- Xem diem hoc ------------------------------------------------" << endl;
+
+    cout << "\n\n\nMa sinh vien: " << msv << "\n";
+    cout << "Ten mon hoc: " << diem << "\n";
+    cout << "\n==============================\n";
+
+}
+
+void DiemRenLuyen::nhap()
+{
+    SinhVien::nhap();
+    system("cls");
+    cout << "\n-------------------------------------------------------------------------------------------------------" << endl;
+    cout << "------------------------------------- Nhap diem ren luyen --------------------------------------------" << endl;
+    cout << "\nNhap ma so sinh vien: ";
+    cin >> msv;
+    cout << "\nNhap diem: ";
+    cin >> diem;
+}
+
+void DiemRenLuyen::xuat()
+{
+    SinhVien::xuat();
+    cout << "\n\n\n==============================\n";
+    cout << "\nMa sinh vien: " << msv << "\n";
+    cout << "Diem: " << diem << "\n";
+    cout << "\n==============================\n";
+
+    getch();
+}
+
+int main()
+{
+    user *sv = new SinhVien; 
+    HoatDong hd;
+    DiemHoc dh;
+    DiemRenLuyen drl;
+    
+    system("color 8F");
+    int choice;
+    do
+    {
+        system("cls");
+        cout << "\n\t\t\t ---------------------------------------------------------------------------------------------";
+        cout << "\n\t\t\t\t\t       || CHAO MUNG DEN VOI HE THONG QUAN LI SINH VIEN  ||";
+        cout << "\n\t\t\t ---------------------------------------------------------------------------------------------";
+        cout << "\n\n\t\t\t   -| Click: [1] Sinh vien | [2] Hoat dong | [3] Diem hoc | [4] Diem ren luyen | [5] Thoat |-";
+        cout << "\n\n\t\t\tCLICK : ";
+        cin >> choice;
+        if (choice == 1)
+        {
+            sv->menu();
+            
+        }
+        else if (choice == 2)
+        {
+            hd.nhap();
+            hd.xuat();
+            hd.Enter();
+        }
+        else if (choice == 3)
+        {
+            
+            dh.Enter();
+        }
+        else if (choice == 4)
+        {
+            drl.nhap();
+            drl.xuat();
+            drl.Enter();
+
+        }
+        else if (choice == 5)
+        {
+            cout << "\n\n\t\t\t\t\t---------------------------";
+            cout << "\n\t\t\t\t\t       >> Thoat <<";
+            cout << "\n\t\t\t\t\t---------------------------";
+            cin.get();
+
+        }
+    } while (choice != 5);
+    return 0;
+}
