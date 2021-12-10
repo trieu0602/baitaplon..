@@ -1,9 +1,9 @@
-lude<windows.h>
+
+#include<iostream>
+#include<windows.h>
 #include<conio.h>
 #include<stdlib.h>
 #include<fstream>
-#include<iostream>
-#inc
 using namespace std;
 
 class user 
