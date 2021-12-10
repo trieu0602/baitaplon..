@@ -8,6 +8,7 @@
 #include<conio.h>
 #include<stdlib.h>
 #include<fstream>
+
 using namespace std;
 
 class user 
@@ -152,6 +153,9 @@ void SinhVien::nhap()
     cout << "\nNhap gioi tinh: ";
     cin >> new_node->gioitinh;
     cout << "\nNhap email: ";
+    //YÊU CẦU:Trùng email thì báo lỗi
+    //sửa code
+    //nguyen minh trieu- 6151071025 - N31
     do
     {
         cin >> new_node->email;
