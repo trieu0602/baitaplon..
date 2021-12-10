@@ -1,4 +1,8 @@
-
+                                       //nguyễn minh triều
+                                      //K61-CNTT
+                                     //NHÓM 31 
+                                     // YÊU CẦU:Trùng email thì báo lỗi
+                                    // SỬA CODE
 #include<iostream>
 #include<windows.h>
 #include<conio.h>
@@ -148,9 +152,6 @@ void SinhVien::nhap()
     cout << "\nNhap gioi tinh: ";
     cin >> new_node->gioitinh;
     cout << "\nNhap email: ";
-    //Trùng email thì báo lỗi
-    //Sửa code
-    //nguyễn minh triều  - 6151071025 - N31
     do
     {
         cin >> new_node->email;
